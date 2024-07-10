@@ -28,7 +28,7 @@ O DIO Token é um exemplo de implementação de uma criptomoeda simples utilizan
 
 1. Clone o repositório:
    ```sh
-   git clone https://github.com/seu-usuario/dio-token.git
+   git clone https://github.com/mario-evangelista/criptomoeda-rede-ethereum.git
    cd dio-token
    ```
 
@@ -152,5 +152,3 @@ Se você deseja contribuir com o projeto, sinta-se à vontade para abrir um pull
 
 Este projeto está licenciado sob a [MIT License](LICENSE).
 ```
-
-Certifique-se de atualizar os links e informações conforme necessário para o seu repositório.
