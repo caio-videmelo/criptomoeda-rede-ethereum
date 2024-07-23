@@ -1,6 +1,6 @@
-# DIO Token
+# Crypto Melo
 
-DIO Token é uma criptomoeda baseada na Rede Ethereum implementada conforme o padrão ERC-20.
+Crypto Melo é uma criptomoeda baseada na Rede Ethereum implementada conforme o padrão ERC-20.
 
 ## Sumário
 
@@ -57,96 +57,14 @@ truffle console
 
 Dentro do console Truffle, você pode executar comandos como:
 
-```js
-let instance = await DIOToken.deployed();
-let accounts = await web3.eth.getAccounts();
-await instance.balanceOf(accounts[0]);
-await instance.transfer(accounts[1], web3.utils.toWei('1', 'ether'));
-await instance.approve(accounts[2], web3.utils.toWei('0.5', 'ether'));
-await instance.allowance(accounts[0], accounts[2]);
-await instance.transferFrom(accounts[0], accounts[2], web3.utils.toWei('0.5', 'ether'), { from: accounts[2] });
-```
+<img src="https://github.com/user-attachments/assets/aff3f13d-3523-4f22-a3d9-180904da9508" alt="Truffle" width="600"/>
+
 
 ## Contrato
 
 Aqui está o código do contrato `CryptoMelo.sol`:
 
-```solidity
-// SPDX-License-Identifier: GPL-3.0
-pragma solidity ^0.8.0;
-
-interface IERC20{
-
-    //getters
-    function totalSupply() external view returns(uint256);
-    function balanceOf(address account) external view returns (uint256);
-    function allowance(address owner, address spender) external view returns (uint256);
-
-    //functions
-    function transfer(address recipient, uint256 amount) external returns (bool);
-    function approve(address spender, uint256 amount) external returns (bool);
-    function transferFrom(address sender, address recipient, uint256 amount) external returns (bool);
-
-    event Transfer(address indexed from, address indexed to, uint256 value);
-    event Approval(address indexed owner, address indexed spender, uint256);
-
-}
-
-contract CryptoMelo is IERC20{
-
-    string public constant name = "Crypto Melo";
-    string public constant symbol = "Melo";
-    uint8 public constant decimals = 18;
-
-    mapping (address => uint256) balances;
-
-    mapping(address => mapping(address=>uint256)) allowed;
-
-    uint256 totalSupply_ = 10 ether;
-
-    constructor(){
-        balances[msg.sender] = totalSupply_;
-    }
-
-    function totalSupply() public override view returns (uint256) {
-        return totalSupply_;
-    }
-
-    function balanceOf(address tokenOwner) public override view returns (uint256){
-        return balances[tokenOwner];
-    }
-
-    function transfer(address receiver, uint256 numTokens) public override returns (bool) {
-        require(numTokens <= balances[msg.sender]);
-        balances[msg.sender] = balances[msg.sender]-numTokens;
-        balances[receiver] = balances[receiver]+numTokens;
-        emit Transfer(msg.sender, receiver, numTokens);
-        return true;
-    }
-
-    function approve(address delegate, uint256 numTokens) public override returns (bool) {
-        allowed[msg.sender][delegate] = numTokens;
-        emit Approval(msg.sender, delegate, numTokens);
-        return true;
-    }
-
-    function allowance(address owner, address delegate) public override view returns (uint) {
-        return allowed[owner][delegate];
-    }
-
-    function transferFrom(address owner, address buyer, uint256 numTokens) public override returns (bool) {
-        require(numTokens <= balances[owner]);
-        require(numTokens <= allowed[owner][msg.sender]);
-
-        balances[owner] = balances[owner]-numTokens;
-        allowed[owner][msg.sender] = allowed[owner][msg.sender]-numTokens;
-        balances[buyer] = balances[buyer]+numTokens;
-        emit Transfer(owner, buyer, numTokens);
-        return true;
-    }
-
-}
-```
+<img src="https://github.com/user-attachments/assets/1569839f-0828-4288-a990-9a4a1417f65c" alt="CryptoMelo"/>
 
 ## Contribuição
 
