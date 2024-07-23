@@ -57,7 +57,7 @@ truffle console
 
 Dentro do console Truffle, você pode executar comandos como:
 
-<img src="https://github.com/user-attachments/assets/aff3f13d-3523-4f22-a3d9-180904da9508" alt="Truffle" width="600"/>
+<img src="https://github.com/user-attachments/assets/aff3f13d-3523-4f22-a3d9-180904da9508" alt="Truffle"/>
 
 
 ## Contrato
