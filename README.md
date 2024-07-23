@@ -14,7 +14,7 @@ DIO Token é uma criptomoeda baseada na Rede Ethereum implementada conforme o pa
 
 ## Introdução
 
-O DIO Token é um exemplo de implementação de uma criptomoeda simples utilizando o padrão ERC-20 na blockchain do Ethereum. Este projeto serve como uma base para entender a criação de tokens e explorar mais funcionalidades do Ethereum.
+O Crypto Melo é um exemplo de implementação de uma criptomoeda simples utilizando o padrão ERC-20 na blockchain do Ethereum. Este projeto serve como uma base para entender a criação de tokens e explorar mais funcionalidades do Ethereum.
 
 ## Requisitos
 
@@ -28,8 +28,8 @@ O DIO Token é um exemplo de implementação de uma criptomoeda simples utilizan
 
 1. Clone o repositório:
    ```sh
-   git clone https://github.com/mario-evangelista/criptomoeda-rede-ethereum.git
-   cd dio-token
+   git clone https://github.com/caio-videmelo/criptomoeda-rede-ethereum.git
+   cd CryptoMelo
    ```
 
 2. Instale as dependências:
@@ -69,86 +69,85 @@ await instance.transferFrom(accounts[0], accounts[2], web3.utils.toWei('0.5', 'e
 
 ## Contrato
 
-Aqui está o código do contrato `DIOToken.sol`:
+Aqui está o código do contrato `CryptoMelo.sol`:
 
 ```solidity
+// SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.8.0;
 
-interface IERC20 {
-    function totalSupply() external view returns (uint256);
+interface IERC20{
+
+    //getters
+    function totalSupply() external view returns(uint256);
     function balanceOf(address account) external view returns (uint256);
     function allowance(address owner, address spender) external view returns (uint256);
+
+    //functions
     function transfer(address recipient, uint256 amount) external returns (bool);
     function approve(address spender, uint256 amount) external returns (bool);
     function transferFrom(address sender, address recipient, uint256 amount) external returns (bool);
+
     event Transfer(address indexed from, address indexed to, uint256 value);
-    event Approval(address indexed owner, address indexed spender, uint256 value);
+    event Approval(address indexed owner, address indexed spender, uint256);
+
 }
 
-contract DIOToken is IERC20 {
-    string public constant name = "DIO Token";
-    string public constant symbol = "DIO";
+contract CryptoMelo is IERC20{
+
+    string public constant name = "Crypto Melo";
+    string public constant symbol = "Melo";
     uint8 public constant decimals = 18;
-    uint256 private _totalSupply = 10 ether;
 
-    mapping(address => uint256) private _balances;
-    mapping(address => mapping(address => uint256)) private _allowances;
+    mapping (address => uint256) balances;
 
-    constructor() {
-        _balances[msg.sender] = _totalSupply;
-        emit Transfer(address(0), msg.sender, _totalSupply);
+    mapping(address => mapping(address=>uint256)) allowed;
+
+    uint256 totalSupply_ = 10 ether;
+
+    constructor(){
+        balances[msg.sender] = totalSupply_;
     }
 
-    function totalSupply() public view override returns (uint256) {
-        return _totalSupply;
+    function totalSupply() public override view returns (uint256) {
+        return totalSupply_;
     }
 
-    function balanceOf(address account) public view override returns (uint256) {
-        return _balances[account];
+    function balanceOf(address tokenOwner) public override view returns (uint256){
+        return balances[tokenOwner];
     }
 
-    function transfer(address recipient, uint256 amount) public override returns (bool) {
-        require(recipient != address(0), "Transfer to the zero address");
-        require(amount <= _balances[msg.sender], "Insufficient balance");
-
-        _balances[msg.sender] -= amount;
-        _balances[recipient] += amount;
-        emit Transfer(msg.sender, recipient, amount);
+    function transfer(address receiver, uint256 numTokens) public override returns (bool) {
+        require(numTokens <= balances[msg.sender]);
+        balances[msg.sender] = balances[msg.sender]-numTokens;
+        balances[receiver] = balances[receiver]+numTokens;
+        emit Transfer(msg.sender, receiver, numTokens);
         return true;
     }
 
-    function approve(address spender, uint256 amount) public override returns (bool) {
-        require(spender != address(0), "Approve to the zero address");
-
-        _allowances[msg.sender][spender] = amount;
-        emit Approval(msg.sender, spender, amount);
+    function approve(address delegate, uint256 numTokens) public override returns (bool) {
+        allowed[msg.sender][delegate] = numTokens;
+        emit Approval(msg.sender, delegate, numTokens);
         return true;
     }
 
-    function allowance(address owner, address spender) public view override returns (uint256) {
-        return _allowances[owner][spender];
+    function allowance(address owner, address delegate) public override view returns (uint) {
+        return allowed[owner][delegate];
     }
 
-    function transferFrom(address sender, address recipient, uint256 amount) public override returns (bool) {
-        require(sender != address(0), "Transfer from the zero address");
-        require(recipient != address(0), "Transfer to the zero address");
-        require(amount <= _balances[sender], "Insufficient balance");
-        require(amount <= _allowances[sender][msg.sender], "Allowance exceeded");
+    function transferFrom(address owner, address buyer, uint256 numTokens) public override returns (bool) {
+        require(numTokens <= balances[owner]);
+        require(numTokens <= allowed[owner][msg.sender]);
 
-        _balances[sender] -= amount;
-        _allowances[sender][msg.sender] -= amount;
-        _balances[recipient] += amount;
-        emit Transfer(sender, recipient, amount);
+        balances[owner] = balances[owner]-numTokens;
+        allowed[owner][msg.sender] = allowed[owner][msg.sender]-numTokens;
+        balances[buyer] = balances[buyer]+numTokens;
+        emit Transfer(owner, buyer, numTokens);
         return true;
     }
+
 }
 ```
 
 ## Contribuição
 
-Se você deseja contribuir com o projeto, sinta-se à vontade para abrir um pull request ou relatar problemas no [GitHub Issues](https://github.com/seu-usuario/dio-token/issues).
-
-## Licença
-
-Este projeto está licenciado sob a [MIT License](LICENSE).
-```
+Se você deseja contribuir com o projeto, sinta-se à vontade para abrir um pull request ou relatar problemas no [GitHub Issues](https://github.com/caio-videmelo/dcriptomoeda-rede-ethereum/issues).
